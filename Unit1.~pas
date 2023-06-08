@@ -1,0 +1,84 @@
+unit Unit1;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Spin, ExtCtrls;
+
+type
+  TForm1 = class(TForm)
+    Timer1: TTimer;
+    SpinEdit1: TSpinEdit;
+    SpinEdit2: TSpinEdit;
+    SpinEdit3: TSpinEdit;
+    Button1: TButton;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    procedure Button1Click(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+  h,m,s,t:integer;
+
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+if Button1.Tag=0 then
+begin
+h:=SpinEdit1.Value*60;
+m:=SpinEdit2.Value;
+s:=SpinEdit3.Value;
+Label5.Caption:=':'+IntToStr(s);
+t:=h+m;
+Label4.Caption:=IntToStr(t);
+Label5.Left:=Label4.Left+Label4.Width;
+Timer1.Enabled:=true;
+Button1.Caption:='stop';
+Button1.Tag:=1;
+end
+else
+begin
+Button1.Tag:=0;
+Button1.Caption:='start';
+Timer1.Enabled:=false;
+end;
+end;
+
+procedure TForm1.Timer1Timer(Sender: TObject);
+begin
+if (t=0) AND (s=0) then
+begin
+timer1.enabled:=false;
+end;
+s:=s-1;
+Label5.Left:=Label4.Left+Label4.Width;
+Label5.Caption:=':'+IntToStr(s);
+if s<0 then
+begin
+s:=59;
+Label5.Caption:=':'+IntToStr(s);
+t:=t-1;
+Label4.Caption:=IntToStr(t);
+end;
+if (t=0) AND (s=0) then
+begin
+timer1.enabled:=false;
+beep;
+end;
+end;
+
+end.
